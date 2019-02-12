@@ -29,7 +29,7 @@ variables:
   AKS.ClusterName: 'dsmsgosampleapp'
 
   # Docker Container port
-  Container.Port: 5000
+  Container.Port: 80
 
   # ========================================================================
   #                           Optional variables 
