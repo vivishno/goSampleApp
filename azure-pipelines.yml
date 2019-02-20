@@ -8,7 +8,7 @@ trigger:
 resources:
 - repo: self
 
-parameters:
+variables:
   # ========================================================================
   #                          Mandatory variables 
   # ========================================================================
@@ -31,17 +31,16 @@ parameters:
   # Docker Container port
   Container.Port: 80
 
-variables:
   # ========================================================================
   #                           Optional variables 
   # ========================================================================
 
-  ACR.RepositoryName: '${{ parameters.ACR.Name }}'
-  ACR.ImageName: '${{ parameters.ACR.Name }}:$(Build.BuildId)'
-  ACR.FullName: '${{ parameters.ACR.Name }}.azurecr.io'
+  ACR.RepositoryName: '${{ variables.ACR.Name }}'
+  ACR.ImageName: '${{ variables.ACR.Name }}:$(Build.BuildId)'
+  ACR.FullName: '${{ variables.ACR.Name }}.azurecr.io'
   ACR.Sku: 'Standard'
   AKS.KubeDeploymentYaml: '$(System.DefaultWorkingDirectory)/KubeDeployment.yml' # Update AKS.KubeDeploymentYaml if you want to use deployment file from repo instead of generated file.
-  AKS.DeploymentPort: '${{ parameters.Container.Port }}'
+  AKS.DeploymentPort: '${{ variables.Container.Port }}'
   Azure.CreateResources: 'true' # Update Azure.CreateResources to false if you have already created resources like resource group, azure container registry and azure kubernetes cluster.
   System.Debug: 'false'
 
@@ -58,13 +57,13 @@ jobs:
   - task: AzureResourceGroupDeployment@2
     displayName: 'Azure Deployment:Create ACR and AKS'
     inputs:
-      azureSubscription: '${{ parameters.Azure.ServiceConnectionId }}'
-      resourceGroupName: '${{ parameters.Azure.ResourceGroupName }}'
-      location: '${{ parameters.Azure.Location }} '
+      azureSubscription: '${{ variables.Azure.ServiceConnectionId }}'
+      resourceGroupName: '${{ variables.Azure.ResourceGroupName }}'
+      location: '${{ variables.Azure.Location }} '
       templateLocation: 'URL of the file'
       addSpnToEnvironment: true
       csmFileLink: 'https://raw.githubusercontent.com/Microsoft/azure-pipelines-yaml/master/templates/resources/arm/aks.json'
-      overrideParameters: '-registryName "${{ parameters.ACR.Name }}" -registryLocation "${{ parameters.Azure.Location }}" -servicePrincipalId $servicePrincipalId -servicePrincipalKey $servicePrincipalKey -clusterName "${{ parameters.AKS.ClusterName }}" -clusterLocation "${{ parameters.Azure.Location }}"'
+      overrideParameters: '-registryName "${{ variables.ACR.Name }}" -registryLocation "${{ variables.Azure.Location }}" -servicePrincipalId $servicePrincipalId -servicePrincipalKey $servicePrincipalKey -clusterName "${{ variables.AKS.ClusterName }}" -clusterLocation "${{ variables.Azure.Location }}"'
 
 - job: BuildImage
   displayName: Build
@@ -78,7 +77,7 @@ jobs:
   - task: Docker@1
     displayName: 'Build an image'
     inputs:
-      azureSubscriptionEndpoint: '${{ parameters.Azure.ServiceConnectionId }}'
+      azureSubscriptionEndpoint: '${{ variables.Azure.ServiceConnectionId }}'
       azureContainerRegistry: '$(ACR.FullName)'
       imageName: '$(ACR.ImageName)'
       command: build
@@ -87,7 +86,7 @@ jobs:
   - task: Docker@1
     displayName: 'Push an image'
     inputs:
-      azureSubscriptionEndpoint: '${{ parameters.Azure.ServiceConnectionId }}'
+      azureSubscriptionEndpoint: '${{ variables.Azure.ServiceConnectionId }}'
       azureContainerRegistry: '$(ACR.FullName)'
       imageName: '$(ACR.ImageName)'
       command: push
@@ -143,8 +142,8 @@ jobs:
   - task: Kubernetes@1
     displayName: 'kubectl apply'
     inputs:
-      azureSubscriptionEndpoint: '${{ parameters.Azure.ServiceConnectionId }}'
-      azureResourceGroup: '${{ parameters.Azure.ResourceGroupName }}'
-      kubernetesCluster: '${{ parameters.AKS.ClusterName }}'
+      azureSubscriptionEndpoint: '${{ variables.Azure.ServiceConnectionId }}'
+      azureResourceGroup: '${{ variables.Azure.ResourceGroupName }}'
+      kubernetesCluster: '${{ variables.AKS.ClusterName }}'
       arguments: '-f $(AKS.KubeDeploymentYaml)'
       command: 'apply'
