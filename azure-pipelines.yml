@@ -97,8 +97,7 @@ jobs:
         echo "##vso[task.setvariable variable=AKS.KubeDeploymentYamlExists;]false"
       fi
     displayName: Check kubernetes deployment yaml exists
-  - bash: >
-      echo "apiVersion : apps/v1beta1
+  - bash: 'echo "apiVersion : apps/v1beta1
       kind: Deployment
       metadata:
         name: $(ACR.RepositoryName)
@@ -126,7 +125,7 @@ jobs:
         - port: $(AKS.DeploymentPort)
         selector:
           app: $(ACR.RepositoryName)" > $(AKS.KubeDeploymentYaml)
-          cat $(AKS.KubeDeploymentYaml)
+          cat $(AKS.KubeDeploymentYaml)'
     displayName: Generate kubernetes deployment yaml
     condition: and(succeeded(), eq(variables['AKS.KubeDeploymentYamlExists'], 'False'))
   - task: Kubernetes@1
