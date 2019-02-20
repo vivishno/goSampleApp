@@ -126,6 +126,7 @@ jobs:
         - port: $(AKS.DeploymentPort)
         selector:
           app: $(ACR.RepositoryName)" > $(AKS.KubeDeploymentYaml)
+          cat $(AKS.KubeDeploymentYaml)
     displayName: Generate kubernetes deployment yaml
     condition: and(succeeded(), eq(variables['AKS.KubeDeploymentYamlExists'], 'False'))
   - task: Kubernetes@1
