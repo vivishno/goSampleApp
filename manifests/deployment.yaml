@@ -11,6 +11,6 @@ spec:
     spec:
       containers:
         - name: sampleapp
-          image: sampleapp
+          image: desattir.azurecr.io/test
           ports:
-          - containerPort: 8080
+          - containerPort: 80
