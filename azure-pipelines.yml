@@ -48,7 +48,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy
-    pool: '$(poolName)'
+    pool: Default
     environment: 'dsmsgoSampleApp.devdbff'
     strategy:
       runOnce:
