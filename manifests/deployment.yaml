@@ -1,16 +1,16 @@
 apiVersion : apps/v1beta1
 kind: Deployment
 metadata:
-  name: sampleapp
+  name: e2esampleapp
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: sampleapp
+        app: e2esampleapp
     spec:
       containers:
-        - name: sampleapp
+        - name: e2esampleapp
           image: desattir.azurecr.io/test
           ports:
           - containerPort: 80
