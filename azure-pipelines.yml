@@ -22,7 +22,7 @@ variables:
   imagePullSecret: 'desattiraksacr-auth'
 
   # Agent Pool Name
-  poolName: 'Default'
+  poolName: 'default'
 
 stages:
 - stage: Build
