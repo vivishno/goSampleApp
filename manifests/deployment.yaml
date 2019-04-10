@@ -11,6 +11,6 @@ spec:
     spec:
       containers:
         - name: e2esampleapp
-          image: desattir.azurecr.io/test
+          image: desattiraksacr.azurecr.io/test
           ports:
           - containerPort: 80
