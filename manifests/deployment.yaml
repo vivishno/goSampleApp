@@ -11,6 +11,6 @@ spec:
     spec:
       containers:
         - name: e2esampleapp
-          image: desattiraksacr.azurecr.io/test
+          image: desattiraksacr.azurecr.io/dsmsgosampleapp
           ports:
           - containerPort: 80
