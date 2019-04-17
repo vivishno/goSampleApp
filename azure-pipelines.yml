@@ -42,10 +42,10 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@0
       inputs:
-        PathtoPublish: 'manifests'
-        ArtifactName: 'drop'
+        artifactName: 'manifests'
+        targetPath: 'manifests'
 
 - stage: Deploy
   displayName: Deploy stage
@@ -60,9 +60,10 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: artifactDropDownloadTask@0
+          - task: DownloadPipelineArtifact@1
             inputs:
-              destinationPath: '$(System.DefaultWorkingDirectory)\manifests'
+              artifactName: 'manifests'
+              downloadPath: '$(System.ArtifactsDirectory)/manifests'
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
             inputs:
