@@ -64,6 +64,7 @@ stages:
             inputs:
               artifactName: 'manifests'
               downloadPath: '$(System.ArtifactsDirectory)/manifests'
+              
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
             inputs:
