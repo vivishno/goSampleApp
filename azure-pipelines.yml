@@ -11,15 +11,15 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation - Docker Hub/ACR/...
-  dockerRegistryServiceConnection: ''
+  dockerRegistryServiceConnection: 'desattiraksacr1'
   imageRepository: 'dsmsgosampleapp'
-  containerRegistry: ''
+  containerRegistry: 'desattiraksacr.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   
   # Kubernetes Namespace
-  k8sNamespace: ''
-  imagePullSecret: '-auth'
+  k8sNamespace: 'devdbff'
+  imagePullSecret: 'devdbff-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -51,7 +51,7 @@ stages:
     displayName: Deploy job
     pool:
       vmImage: $(vmImageName)
-    environment: '.'
+    environment: 'desattir.devdbff'
     strategy:
       runOnce:
         deploy:
