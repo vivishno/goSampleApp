@@ -69,8 +69,8 @@ stages:
               action: deploy
               namespace: $(k8sNamespace)
               manifests: |
-                $(System.ArtifactsDirectory)/manifests/deployment.yml
-                $(System.ArtifactsDirectory)/manifests/service.yml
+                $(System.defaultworkingdirectory)/manifests/deployment.yml
+                $(System.defaultworkingdirectory)/manifests/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
