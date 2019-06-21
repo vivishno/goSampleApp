@@ -11,6 +11,6 @@ spec:
     spec:
       containers:
         - name: dsmsgosampleapp 
-          image: desattiraksacr.azurecr.io/dsmsgosampleapp 
+          image: desattiracr.azurecr.io/dsmsgosampleapp 
           ports:
           - containerPort: 80
