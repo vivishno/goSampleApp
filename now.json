@@ -1,5 +1,5 @@
 {
   "builds": [
-    { "src": "*.go", "use": "@now/go" }
+    { "use": "@now/go" }
   ]
 }
