@@ -43,7 +43,3 @@ stages:
           action: deploy
           kubernetesServiceConnection: desattiraks-dev9aa9
           manifests: $(bake.manifestsBundle)
-          imagePullSecrets: |
-            $(imagePullSecret)
-          containers: |
-            $(containerRegistry)/$(imageRepository):$(tag)
