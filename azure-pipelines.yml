@@ -22,39 +22,27 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-
-- stage: Deploy
-  displayName: Deploy stage
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy
+- stage: Build
+  displayName: Build stage
+  jobs:  
+  - job: Build
+    displayName: Build
     pool:
       vmImage: $(vmImageName)
-    environment: 'dsmsgoSampleApp.dev9aa9'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+    steps:
+      - task: KubernetesManifest@0
+        name: bake
+        inputs:
+          action: 'bake'
+          helmChart: 'charts/sampleapp'
+          releaseName: 'abc'
           
-          - task: KubernetesManifest@0
-            name: bake
-            inputs:
-              action: 'bake'
-              helmChart: 'charts/sampleapp'
-              releaseName: 'abc'
-              
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              manifests: $(bake.manifestsBundle)
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+      - task: KubernetesManifest@0
+        displayName: Deploy to Kubernetes cluster
+        inputs:
+          action: deploy
+          manifests: $(bake.manifestsBundle)
+          imagePullSecrets: |
+            $(imagePullSecret)
+          containers: |
+            $(containerRegistry)/$(imageRepository):$(tag)
