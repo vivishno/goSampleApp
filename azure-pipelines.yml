@@ -36,6 +36,9 @@ stages:
           action: 'bake'
           helmChart: 'charts/sampleapp'
           releaseName: 'abc'
+          overrideFiles: 'somevaluesfile.yml'
+          overrides: |
+            fullNameOverride: xyz
           
       - task: KubernetesManifest@0
         displayName: Deploy to Kubernetes cluster
