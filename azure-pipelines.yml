@@ -12,9 +12,6 @@ variables:
   containerRegistry: 'desattiracr.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '1023'
-  
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
 
 stages:
 
@@ -23,8 +20,8 @@ stages:
   jobs:
     - job: Deploy
       displayName: Build
-      pool:
-        vmImage: $(vmImageName)
+      pool: default
+      
       steps:
       - task: KubernetesManifest@1
         name: bake
@@ -39,14 +36,6 @@ stages:
             ingress.enabled:true
             ingress.hostname:bluegreen.d673faa123fa4d679d6c.eastus.aksapp.io
 
-      - task: KubernetesManifest@1
-        inputs:
-          action: 'createSecret'
-          kubernetesServiceConnection: 'desattir-bg'
-          namespace: 'default'
-          secretType: 'dockerRegistry'
-          secretName: 'desattiracr'
-          dockerRegistryEndpoint: 'desattiracr'
           
       - task: KubernetesManifest@1
         inputs:
