@@ -36,6 +36,7 @@ stages:
             ingress.enabled:true
             ingress.hostname:bluegreen.d673faa123fa4d679d6c.eastus.aksapp.io
 
+      - upload: '$(bake.manifestsBundle)'
           
       - task: KubernetesManifest@1
         inputs:
