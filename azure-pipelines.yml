@@ -31,7 +31,7 @@ stages:
           helmChart: 'charts/sampleapp'
           releaseName: 'bluegreen'
           overrides: |
-            image.repository:$(containerRegistry)
+            image.repository:$(containerRegistry)/bluegreen
             image.tag:$(tag)
             ingress.enabled:true
             ingress.hostname:bluegreen.d673faa123fa4d679d6c.eastus.aksapp.io
