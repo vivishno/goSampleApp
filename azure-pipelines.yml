@@ -34,3 +34,42 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+    - job: Deploy
+      displayName: Build
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: KubernetesManifest@1
+        name: bake
+        inputs:
+          action: 'bake'
+          namespace: 'default'
+          helmChart: 'charts/sampleapp'
+          releaseName: 'bluegreen'
+          overrides: |
+            image.repository:$(containerRegistry)
+            image.tag:$(tag)
+            ingress.enabled:true
+            ingress.hostname:bluegreen.d673faa123fa4d679d6c.eastus.aksapp.io
+
+      - task: KubernetesManifest@1
+        inputs:
+          action: 'createSecret'
+          kubernetesServiceConnection: 'desattir-bg'
+          namespace: 'default'
+          secretType: 'dockerRegistry'
+          secretName: 'desattiracr'
+          dockerRegistryEndpoint: 'desattiracr'
+          
+      - task: KubernetesManifest@1
+        inputs:
+          action: 'deploy'
+          kubernetesServiceConnection: 'desattir-bg'
+          namespace: 'default'
+          strategy: 'bluegreen'
+          manifests: '$(bake.manifestsBundle)'
+          imagePullSecrets: 'desattiracr'
