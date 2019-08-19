@@ -20,7 +20,7 @@ stages:
   jobs:
     - job: Deploy
       displayName: Build
-      pool: default
+      pool: Hosted Ubuntu 1604
       
       steps:
       - task: KubernetesManifest@1
