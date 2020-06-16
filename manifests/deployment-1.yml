@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: "ajakscluster"
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: "ajakscluster"
+    spec:
+      containers:
+        - name: "ajakscluster"
+          image: "abhisheaacr.azurecr.io/ajakscluster"
+          ports:
+          - containerPort: 80
