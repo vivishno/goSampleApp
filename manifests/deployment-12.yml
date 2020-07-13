@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: "rogoyalaks-2480"
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: "rogoyalaks-2480"
+    spec:
+      containers:
+        - name: "rogoyalaks-2480"
+          image: "rogoyalacr.azurecr.io/rogoyalaks"
+          ports:
+          - containerPort: 80
