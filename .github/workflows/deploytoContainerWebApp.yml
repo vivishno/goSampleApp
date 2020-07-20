@@ -23,14 +23,14 @@ jobs:
     - uses: azure/docker-login@v1
       with:
         login-server: rogoyalacr008.azurecr.io
-        username: 49b90a77-048d-4b8b-a828-322bc1d58216
-        password: G%;i9:LGb(b]2L2;L%*6fVyY9AGn6;X6>FBT1NnP
+        username: rogoyalacr008
+        password: AViL3s=IDI7wDzlHNhNKGF9FxRZ9EjE4
     
-#     - name: Build and push image to ACR
-#       id: build-image
-#       run: |
-#         docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
-#         docker push rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
+        docker push rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
       
     - uses: azure/webapps-deploy@v2
       with:
