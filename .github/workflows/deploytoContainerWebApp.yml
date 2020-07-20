@@ -15,7 +15,7 @@ jobs:
     - name: Create ACR
       id: create-acr
       run: |
-        az acr create -n rogoyalacr007 -g rogoyalacr007a0ad-rg --location "South Central US" --sku Standard --admin-enabled
+        az acr create -n rogoyalacr007 -g rogoyalacr07a0ad-rg --location "South Central US" --sku Standard --admin-enabled
         echo "::set-output name=acr_username::`az acr credential show -n rogoyalacr007 --query username | xargs`"
         echo "::set-output name=acr_password::`az acr credential show -n rogoyalacr007 --query passwords[0].value | xargs`"
         # echo "::add-mask::`az acr credential show -n rogoyalacr07 --query passwords[0].value | xargs`"
