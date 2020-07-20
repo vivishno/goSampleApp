@@ -12,13 +12,13 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Create ACR
-      id: create-acr
-      run: |
-        az acr create -n rogoyalacr008 -g rogoyalacr07a0ad-rg --location "South Central US" --sku Standard --admin-enabled
-        echo "::set-output name=acr_username::`az acr credential show -n rogoyalacr008 --query username | xargs`"
-        echo "::set-output name=acr_password::`az acr credential show -n rogoyalacr008 --query passwords[0].value | xargs`"
-        # echo "::add-mask::`az acr credential show -n rogoyalacr07 --query passwords[0].value | xargs`"
+#     - name: Create ACR
+#       id: create-acr
+#       run: |
+#         az acr create -n rogoyalacr008 -g rogoyalacr07a0ad-rg --location "South Central US" --sku Standard --admin-enabled
+#         echo "::set-output name=acr_username::`az acr credential show -n rogoyalacr008 --query username | xargs`"
+#         echo "::set-output name=acr_password::`az acr credential show -n rogoyalacr008 --query passwords[0].value | xargs`"
+#         # echo "::add-mask::`az acr credential show -n rogoyalacr07 --query passwords[0].value | xargs`"
     
     - uses: azure/docker-login@v1
       with:
@@ -26,11 +26,11 @@ jobs:
         username: 49b90a77-048d-4b8b-a828-322bc1d58216
         password: G%;i9:LGb(b]2L2;L%*6fVyY9AGn6;X6>FBT1NnP
     
-    - name: Build and push image to ACR
-      id: build-image
-      run: |
-        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
-        docker push rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
+#     - name: Build and push image to ACR
+#       id: build-image
+#       run: |
+#         docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
+#         docker push rogoyalacr008.azurecr.io/rogoyalwebappnewacr-img:${{ github.sha }}
       
     - uses: azure/webapps-deploy@v2
       with:
