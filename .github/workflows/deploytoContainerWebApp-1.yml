@@ -1,0 +1,38 @@
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@master
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Create ACR
+      id: create-acr
+      run: |
+        az acr create -n rogoyalacr2 -g rogoyalacr2ad0c-rg --location "South Central US" --sku Standard --admin-enabled
+        echo "::set-output name=acr_username::`az acr credential show -n rogoyalacr2 --query username | xargs`"
+        echo "::set-output name=acr_password::`az acr credential show -n rogoyalacr2 --query passwords[0].value | xargs`"
+        # echo "::add-mask::`az acr credential show -n rogoyalacr2 --query passwords[0].value | xargs`"
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: rogoyalacr2.azurecr.io
+        username: ${{ steps.create-acr.outputs.acr_username }}
+        password: ${{ steps.create-acr.outputs.acr_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacr2.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
+        docker push rogoyalacr2.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
+      
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: rogoyal-webapp-container
+        images: rogoyalacr2.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
