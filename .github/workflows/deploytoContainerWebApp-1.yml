@@ -22,9 +22,9 @@ jobs:
     
     - uses: azure/docker-login@v1
       with:
-        login-server: rogoyalacr.azurecr.io
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        login-server: rogoyalsomeacr.azurecr.io
+        username: rogoyalsomeacr
+        password: U6CFtUvuophPCCO4uPuE9DxhKdJqr09=
     
 #     - name: Build and push image to ACR
 #       id: build-image
@@ -34,5 +34,5 @@ jobs:
       
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: rogoyal-webapp-container
-        images: rogoyalacr.azurecr.io/rogoyalwebappcontainer-img:4dab05862a3898422adee6b5b57a0b9e2fbcf6b6
+        app-name: rogoyal-test-webapp
+        images: rogoyalsomeacr.azurecr.io/rogoyaltestwebapp-img:94e5447d33279edfb53d8887e2d8524b0735118b
