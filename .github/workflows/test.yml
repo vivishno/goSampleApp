@@ -35,4 +35,4 @@ jobs:
     - uses: azure/webapps-deploy@v2
       with:
         app-name: rogoyal-test-webapp
-        images: rogoyalacrtest.azurecr.io/rogoyaltestwebapp-img:${{ github.sha }}
+        images: rogoyalacrtest.azurecr.io/rogoyaltestwebapp-img:75b67e01ebe3a41660476de27f86d7ac51a7c8d9
