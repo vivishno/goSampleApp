@@ -27,6 +27,7 @@ jobs:
     - name: Set Web App ACR authentication
       uses: Azure/appservice-settings@v1
       with: 
+        app-name: rogoyal-webapp-container
         app-settings-json: ${{ secrets.APP_SETTINGS }}
                               
     - uses: azure/webapps-deploy@v2
