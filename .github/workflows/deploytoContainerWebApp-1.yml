@@ -1,0 +1,30 @@
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@master
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: rogoyalacrtest.azurecr.io
+        username: ${{ secrets.acr_rogoyalacrtest_username }}
+        password: ${{ secrets.acr_rogoyalacrtest_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacrtest.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
+        docker push rogoyalacrtest.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
+      
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: rogoyal-webapp-container
+        images: rogoyalacrtest.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
