@@ -24,6 +24,11 @@ jobs:
         docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacrtest.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
         docker push rogoyalacrtest.azurecr.io/rogoyalwebappcontainer-img:${{ github.sha }}
       
+    - name: Set Web App ACR authentication
+      uses: Azure/appservice-settings@v1
+      with: 
+        app-settings-json: ${{ secrets.APP_SETTINGS }}
+                              
     - uses: azure/webapps-deploy@v2
       with:
         app-name: rogoyal-webapp-container
