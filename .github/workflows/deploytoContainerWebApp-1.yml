@@ -28,7 +28,39 @@ jobs:
       uses: Azure/appservice-settings@v1
       with: 
         app-name: rogoyal-webapp-container
-        app-settings-json: ${{ secrets.APP_SETTINGS }}
+        app-settings-json: | 
+          [
+            {
+              "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+              "value": "Kn7eFksFUeL7tehyJidoTUVwwGW+wzEm",
+              "slotSetting": false
+            },
+            {
+              "name": "DOCKER_REGISTRY_SERVER_URL",
+              "value": "https://rogoyalacrtest.azurecr.io",
+              "slotSetting": false
+            },
+            {
+              "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+              "value": "rogoyalacrtest",
+              "slotSetting": false
+            },
+            {
+              "name": "WEBSITE_ENABLE_SYNC_UPDATE_SITE",
+              "value": "true",
+              "slotSetting": false
+            },
+            {
+              "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+              "value": "false",
+              "slotSetting": false
+            },
+            {
+              "name": "WEBSITES_PORT",
+              "value": "80",
+              "slotSetting": false
+            }
+          ]
                               
     - uses: azure/webapps-deploy@v2
       with:
