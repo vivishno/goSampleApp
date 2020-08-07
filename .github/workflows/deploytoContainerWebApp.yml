@@ -44,8 +44,3 @@ jobs:
               "slotSetting": false
             }            
           ]
-      
-    - uses: azure/webapps-deploy@v2
-      with:
-        app-name: rogoyal-webapp
-        images: rogoyalacr.azurecr.io/rogoyalwebapp-img:${{ github.sha }}
