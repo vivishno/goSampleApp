@@ -51,7 +51,7 @@ func render(w http.ResponseWriter, tmpl string, pageVars PageVars) {
 
 func Home(w http.ResponseWriter, req *http.Request) {
 	pageVars := PageVars{
-		Message: "Success!",
+		Message: "Successee!",
 		Language: "Go Lang",
 	}
 	render(w, "index.html", pageVars)
