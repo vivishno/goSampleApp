@@ -15,40 +15,40 @@ jobs:
     
     - uses: azure/docker-login@v1
       with:
-        login-server: rogoyalacr.azurecr.io
-        username: ${{ secrets.acr_rogoyalacr_username }}
-        password: ${{ secrets.acr_rogoyalacr_password }}
+        login-server: myregvivek12.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
     
     - name: Build and push image to ACR
       id: build-image
       run: |
-        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t rogoyalacr.azurecr.io/rogoyalactivitylogtest-img:${{ github.sha }}
-        docker push rogoyalacr.azurecr.io/rogoyalactivitylogtest-img:${{ github.sha }}
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t myregvivek12.azurecr.io/sample_image:${{ github.sha }}
+        docker push myregvivek12.azurecr.io/sample_image:${{ github.sha }}
 
     - name: Set Web App ACR authentication
       uses: Azure/appservice-settings@v1
       with: 
-        app-name: rogoyal-activity-log-test
+        app-name: myappvivek22
         app-settings-json: | 
           [
             {
               "name": "DOCKER_REGISTRY_SERVER_URL",
-              "value": "rogoyalacr.azurecr.io",
+              "value": "myregvivek12.azurecr.io",
               "slotSetting": false
             },
             {
               "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-              "value": "${{ secrets.acr_rogoyalacr_username }}",
+              "value": "${{ secrets.REGISTRY_USERNAME }}",
               "slotSetting": false
             },
             {
               "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-              "value": "${{ secrets.acr_rogoyalacr_password }}",
+              "value": "${{ secrets.REGISTRY_PASSWORD }}",
               "slotSetting": false
             }            
           ]
       
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: rogoyal-activity-log-test
-        images: rogoyalacr.azurecr.io/rogoyalactivitylogtest-img:${{ github.sha }}
+        app-name: myappvivek22
+        images: myregvivek12.azurecr.io/sample_image:${{ github.sha }}
