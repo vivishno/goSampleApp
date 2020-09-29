@@ -3,7 +3,7 @@ name: "xcvbn"
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
     steps:
     - name: 'Checkout Github Action' 
       uses: actions/checkout@master
